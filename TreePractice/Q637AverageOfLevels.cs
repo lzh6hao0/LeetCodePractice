@@ -7,18 +7,18 @@ namespace LeetCodePractice.TreePractice{
     public class Q637AverageOfLevels{
 
         /// <summary>
-        /// Ê¹ÓÃË«¶ÓÁĞ
-        /// Ò»¸ö¶ÓÁĞQ1ÓÖÀ´´æ´¢µ±Ç°²ã½Úµã
-        /// ÁíÒ»¶ÓÁĞQ2´æ´¢µ±Ç°²ã½ÚµãµÄ×Ó½Úµã
-        /// µ±Q1ÖĞÊıÁ¿=0Ê±£¬½«Q2ÖĞµÄ½ÚµãÈ«²¿Èëµ½Q1µ±ÖĞ
-        /// Èç¹ûQ1ºÍQ2µÄÊıÁ¿¶¼Îª0Ê±£¬±íÃ÷Ê÷ÒÑ±éÀúÍê
+        /// ä½¿ç”¨åŒé˜Ÿåˆ—
+        /// ä¸€ä¸ªé˜Ÿåˆ—Q1åˆæ¥å­˜å‚¨å½“å‰å±‚èŠ‚ç‚¹
+        /// å¦ä¸€é˜Ÿåˆ—Q2å­˜å‚¨å½“å‰å±‚èŠ‚ç‚¹çš„å­èŠ‚ç‚¹
+        /// å½“Q1ä¸­æ•°é‡=0æ—¶ï¼Œå°†Q2ä¸­çš„èŠ‚ç‚¹å…¨éƒ¨å…¥åˆ°Q1å½“ä¸­
+        /// å¦‚æœQ1å’ŒQ2çš„æ•°é‡éƒ½ä¸º0æ—¶ï¼Œè¡¨æ˜æ ‘å·²éå†å®Œ
         /// 
-        /// Ğ§ÂÊ½ÏµÍ£¬»¹ĞèÓÅ»¯
+        /// æ•ˆç‡è¾ƒä½ï¼Œè¿˜éœ€ä¼˜åŒ–ï¼Œæ¯”å¦‚ä½¿ç”¨ä¸€ä¸ªé˜Ÿåˆ—
         /// </summary>
         public IList<double> AverageOfLevels(TreeNode root){
             Queue<TreeNode> parentQueue = new Queue<TreeNode>();
             Queue<TreeNode> childQueue = new Queue<TreeNode>();
-            parentQueue.Enqueue(root);//ÏÈ½«root½ÚµãÈëµ½¸¸¶ÓÁĞ
+            parentQueue.Enqueue(root);//å…ˆå°†rootèŠ‚ç‚¹å…¥åˆ°çˆ¶é˜Ÿåˆ—
             TreeNode currentNode = null;
             int levelsCount = 0;
             int levelsSum = 0;
@@ -30,7 +30,7 @@ namespace LeetCodePractice.TreePractice{
                 levelsCount++;
                 if (currentNode.left != null) childQueue.Enqueue(currentNode.left);
                 if (currentNode.right != null) childQueue.Enqueue(currentNode.right);
-                //µ±¸¸¶ÓÁĞÃ»ÓĞÔªËØÊ±£¬ÇóÆ½¾ùÖµ£¬È»ºó½«countºÍsumÖÃÎª0£¬²¢½«childQueueÖĞµÄÔªËØÈ«²¿Èëµ½¸¸¶ÓÁĞÖĞ
+                //å½“çˆ¶é˜Ÿåˆ—æ²¡æœ‰å…ƒç´ æ—¶ï¼Œæ±‚å¹³å‡å€¼ï¼Œç„¶åå°†countå’Œsumç½®ä¸º0ï¼Œå¹¶å°†childQueueä¸­çš„å…ƒç´ å…¨éƒ¨å…¥åˆ°çˆ¶é˜Ÿåˆ—ä¸­
                 if (parentQueue.Count == 0)
                 {
                     double average = (double)levelsSum / levelsCount;
@@ -45,15 +45,25 @@ namespace LeetCodePractice.TreePractice{
             }
             return res;
         }
+
+
+        public IList<double> AverageOfLevelsBest(TreeNode root){
+            if(root==null)return null;
+            Queue<TreeNode> queue= new Queue<TreeNode>();
+            IList<double> res = new List<double>();
+            queue.Enqueue(root);
+            while(queue.Count!=0){
+                int sum=0;
+                int count=queue.Count;
+                for(int i=0;i<count;i++){
+                    TreeNode cur=queue.Dequeue();
+                    sum+=cur.val;
+                    if(cur.left!=null)queue.Enqueue(cur.left);
+                    if(cur.right!=null)queue.Enqueue(cur.right);
+                }
+                res.Add((double)sum/count);
+            }
+            return res;
+        }
     }
-
-    
-  //Definition for a binary tree node.
-  public class TreeNode {
-      public int val;
-      public TreeNode left;
-      public TreeNode right;
-      public TreeNode(int x) { val = x; }
-  }
-
 }
